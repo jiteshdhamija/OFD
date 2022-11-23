@@ -1,0 +1,85 @@
+package com.sprint.ofd.controller;
+
+import java.time.LocalDate;
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.sprint.ofd.entity.Bill;
+import com.sprint.ofd.entity.Customer;
+import com.sprint.ofd.service.IBillService;
+
+@RestController
+public class BillController {
+	
+	//autowired ibillservice
+	@Autowired
+	IBillService billServ;
+	
+	//controller calling billservice to add bill
+	@PostMapping("/bill/add/")
+	public ResponseEntity<Bill> addBill(@Valid @RequestBody Bill bill) {
+		Bill b = billServ.addBill(bill);
+		ResponseEntity<Bill> response = new ResponseEntity<>(b, HttpStatus.CREATED); 
+		return response;
+		
+	}
+	
+	//controller calling billservice to update bill
+	@PutMapping("/bill/update/{billId}/")
+	public ResponseEntity<Bill> updateBill(@Valid @PathVariable Bill bill) {
+		Bill b = billServ.updateBill(bill);
+		ResponseEntity<Bill> response = new ResponseEntity<>(b, HttpStatus.OK);
+		return response;
+		
+	}
+	
+	//controller calling billservice to delete bill
+	
+	@DeleteMapping("/bill/delete/{bill}/")
+	public ResponseEntity<Bill> removeBill(@Valid @PathVariable Bill bill) {
+		Bill b = billServ.updateBill(bill);
+		ResponseEntity<Bill> response = new ResponseEntity<>(b, HttpStatus.OK); 
+		return response;
+		
+	}
+	
+	
+	//controller calling billservice to view bill
+	@GetMapping("/bill/view/{bill}/")
+	public ResponseEntity<Bill> viewBill(@Valid @PathVariable Bill bill) {
+		Bill b = billServ.viewBill(bill);
+		ResponseEntity<Bill> response = new ResponseEntity<>(b, HttpStatus.OK); 
+		return response;
+		
+	}
+	
+	//controller calling billservice to view bills in between start date and end date 
+	@GetMapping("/bill/viewBills/byDates/{startDate}/{endDate}/")
+	public ResponseEntity<List<Bill>> viewBills(@Valid @PathVariable("startDate") LocalDate startDate,@PathVariable("endDate") LocalDate endDate) {
+		List<Bill> b = billServ.viewBills(startDate,endDate);
+		ResponseEntity<List<Bill>> response = new ResponseEntity<>(b, HttpStatus.OK);
+		return  response;
+		
+	}
+	//controller calling billservice to view bill mapped to customerId
+	
+	@GetMapping("bills/viewBills/byCustId/{custId}/")
+	public ResponseEntity<List<Bill>> viewBills(@Valid @PathVariable Customer cust) {
+		List<Bill> b = billServ.viewBills(cust);
+		ResponseEntity<List<Bill>> response = new ResponseEntity<>(b, HttpStatus.OK); 
+		return  response;
+	}
+
+}
