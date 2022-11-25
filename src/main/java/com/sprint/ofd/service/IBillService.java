@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.sprint.ofd.entity.Bill;
 import com.sprint.ofd.entity.Customer;
 
-@Service
+
 public interface IBillService {
 
 	public Bill addBill(Bill bill);

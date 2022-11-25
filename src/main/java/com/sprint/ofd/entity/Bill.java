@@ -32,6 +32,8 @@ public class Bill {
 	private Customer customer;
 	
 	private int totalItem;
+	
+	
 	@NotNull
 	@NotEmpty
 	@NotBlank

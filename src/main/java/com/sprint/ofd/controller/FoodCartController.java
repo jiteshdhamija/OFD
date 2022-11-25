@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sprint.ofd.entity.FoodCart;
@@ -24,8 +25,8 @@ public class FoodCartController {
 	
 	
 	//controller calling foodCartService to add Item to cart
-	@PostMapping("/cart/additem/{cart}/")
-	public ResponseEntity<FoodCart> addItemToCart(@Valid @PathVariable("cart") FoodCart cart) {
+	@PostMapping("/cart/additem/")
+	public ResponseEntity<FoodCart> addItemToCart(@Valid @RequestBody FoodCart cart) {
 		FoodCart food = cartServ.addItemToCart(cart);
 		ResponseEntity<FoodCart> response = new ResponseEntity<>(food, HttpStatus.OK); 
 		return response;

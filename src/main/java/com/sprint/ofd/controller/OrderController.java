@@ -29,7 +29,7 @@ public class OrderController {
 	IOrderService orderServ;
 	
 	//controller calling orderService to add order
-	@PostMapping("/order/add/{order}/")
+	@PostMapping("/order/add/")
 	public ResponseEntity<OrderDetails> addOrder(@Valid @RequestBody OrderDetails order) {
 		OrderDetails ord = orderServ.addOrder(order);
 		ResponseEntity<OrderDetails> response = new ResponseEntity<>(ord, HttpStatus.OK); 

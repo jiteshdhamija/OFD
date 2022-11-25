@@ -9,7 +9,7 @@ import com.sprint.ofd.entity.OrderDetails;
 import com.sprint.ofd.entity.Restaurant;
 
 
-@Service
+
 public interface IOrderService {
 
 	public OrderDetails addOrder(OrderDetails order);

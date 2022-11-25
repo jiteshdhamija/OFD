@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import lombok.Data;
 
@@ -20,11 +21,10 @@ public class FoodCart {
 	@GeneratedValue
 	private int cartId;
 	
-	private int quantity;
-	
-	
-	//private Customer customer;
-	@OneToMany(cascade=CascadeType.ALL)
+	@OneToOne(cascade=CascadeType.MERGE)
+	@JoinColumn(name="cart_cust_fk")
+	private Customer customer;
+	@OneToMany(cascade=CascadeType.MERGE)
 	@JoinColumn(name="cart_item_fk")
 	private List<Item> itemList;
 

@@ -41,7 +41,9 @@ public class Customer {
 	private int age;
 	@Size(min=10,max=10,message="mobile number should be 10 digits")
 	private long mobileNumber;
-	//private Address address;
+	@OneToOne(cascade=CascadeType.MERGE)
+	@JoinColumn(name="cust_add_fk")
+	private Address address;
 	@Email
 	private String email;
 	

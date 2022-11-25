@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import com.sprint.ofd.entity.FoodCart;
 import com.sprint.ofd.entity.Item;
 
-@Service
+
 public interface ICartService {
 
 	public FoodCart addItemToCart(FoodCart cart);

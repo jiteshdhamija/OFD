@@ -34,8 +34,8 @@ public class CartServiceImpl implements ICartService {
 	
 	
 	//increasing quantity in cart db
-	@Override
-	public FoodCart increaseQuantity(FoodCart cart,Item item,int quantity) {
+	//@Override
+	/*public FoodCart increaseQuantity(FoodCart cart,Item item,int quantity) {
 		Optional<FoodCart> food=cartRepo.findById(cart.getCartId());
 		FoodCart car=food.get();
 		car.setQuantity(quantity);
@@ -53,7 +53,7 @@ public class CartServiceImpl implements ICartService {
 		car=cartRepo.save(car);
 		logger.info("Item quantity changed in cart");
 		return car;
-	}
+	}*/
 	
 	//removing item from cart
 	@Override
@@ -77,6 +77,20 @@ public class CartServiceImpl implements ICartService {
 		car.setItemList(null);
 		
 		return car;
+	}
+
+
+	@Override
+	public FoodCart increaseQuantity(FoodCart cart, Item item, int quantity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public FoodCart reduceQuantity(FoodCart cart, Item item, int quantity) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 
