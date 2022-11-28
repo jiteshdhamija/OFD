@@ -6,7 +6,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.sprint.ofd.entity.Category;
 import com.sprint.ofd.entity.Item;
+import com.sprint.ofd.entity.ItemRestDTO;
+import com.sprint.ofd.repository.ICategoryRepository;
 import com.sprint.ofd.repository.IItemRepository;
 
 @Service
@@ -14,6 +18,8 @@ public class ItemServiceImpl implements IItemService {
 	
 	@Autowired
 	IItemRepository itemRepo;
+	@Autowired
+	ICategoryService catServ;
 	
 	private Logger logger = LogManager.getLogger();
     
@@ -21,8 +27,13 @@ public class ItemServiceImpl implements IItemService {
      * Here we are adding items to the database
      */
 	@Override
-	public Item addItem(Item item) {
-		Item newItem = itemRepo.save(item);
+	public Item addItem(ItemRestDTO item) {
+		
+		Item i=new Item();
+		i.setItemName(item.getItemName());
+		i.setCost(item.getCost());
+		i.setCategory(catServ.viewCategory( item.getCategoryName()));
+		Item newItem = itemRepo.save(i);
 		logger.info("item added with unique id");
 		return newItem;
 	}

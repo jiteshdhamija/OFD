@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sprint.ofd.entity.Item;
+import com.sprint.ofd.entity.ItemRestDTO;
 import com.sprint.ofd.entity.Restaurant;
 import com.sprint.ofd.service.IItemService;
 
@@ -21,7 +22,7 @@ public class ItemController {
 	IItemService itmServ;
 	
 	@PostMapping("/item/add")
-	ResponseEntity<Item> addItem(@RequestBody Item item) {
+	ResponseEntity<Item> addItem(@RequestBody ItemRestDTO item) {
 		System.out.println(item);
 		Item newItem = itmServ.addItem(item);
 		System.out.println(newItem);
