@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.sprint.ofd.entity.FoodCart;
 import com.sprint.ofd.entity.Item;
+import com.sprint.ofd.entity.dto.CartInputDto;
 import com.sprint.ofd.repository.ICartRepository;
 
 @Service
@@ -24,9 +25,10 @@ public class CartServiceImpl implements ICartService {
 	//add item to cart in db
 	
 	@Override
-	public FoodCart addItemToCart(FoodCart cart) {
-		
-		FoodCart newCart= cartRepo.save(cart);
+	public FoodCart addItemToCart(CartInputDto cart) {
+		FoodCart elem=new FoodCart();
+		elem.setItemList(cart.getItemList());
+		FoodCart newCart= cartRepo.save(elem);
 		logger.info("Item Added to cart");
 		
 		return newCart;

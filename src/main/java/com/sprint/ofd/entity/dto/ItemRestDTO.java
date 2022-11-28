@@ -1,4 +1,4 @@
-package com.sprint.ofd.entity;
+package com.sprint.ofd.entity.dto;
 
 import java.util.List;
 
