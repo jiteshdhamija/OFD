@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.sprint.ofd.repository.IRestaurantRepository;
 import com.sprint.ofd.entity.Restaurant;
+import com.sprint.ofd.entity.dto.RestaurantInputDto;
 import com.sprint.ofd.exceptions.RestaurantNotFoundException;
 
 @Service
@@ -20,8 +21,13 @@ public class RestaurantServiceImpl implements IRestaurantService {
      * Here we are adding restaurant to the database
      */
 	@Override
-	public Restaurant addRestaurant(Restaurant res) {
-		Restaurant newRes = resRepo.save(res);      
+	public Restaurant addRestaurant(RestaurantInputDto res) {
+		Restaurant newRes=new Restaurant();
+		newRes.setAddress(res.getAddress());
+		newRes.setContactNumber(res.getContactNumber());
+		newRes.setManagerName(res.getManagerName());
+		newRes.setRestaurantName(res.getRestaurantName());
+		newRes = resRepo.save(newRes);      
 		logger.info("restaurant added with unique id");
 		return newRes; 
 	}
@@ -67,16 +73,50 @@ public class RestaurantServiceImpl implements IRestaurantService {
      * Here we are updating restaurant to the database according to the respective restaurantId
      */
 	@Override
-	public Restaurant updateRestaurant(int restaurantId, Restaurant res) throws RestaurantNotFoundException{
+	public Restaurant updateRestaurant(int restaurantId, RestaurantInputDto res) throws RestaurantNotFoundException{
 		Optional<Restaurant> opt = resRepo.findById(restaurantId);
+		
+		
+		
 		if (opt.isPresent()) {
 			logger.info("restaurant found with given id");
-			resRepo.save(res);
-		return res;
+			Restaurant newRes=new Restaurant();
+			newRes.setAddress(res.getAddress());
+			newRes.setContactNumber(res.getContactNumber());
+			newRes.setManagerName(res.getManagerName());
+			newRes.setRestaurantName(res.getRestaurantName());
+			newRes = resRepo.save(newRes);  
+			resRepo.save(newRes);
+		return newRes;
 		}
 		else {
-			throw new RestaurantNotFoundException("Restaurant ID NOT AVAILABLE ");
+			throw new RestaurantNotFoundException("Restaurant Not found with given ID");
 		}
 	}	
+	
+	
+	@Override
+	public Restaurant findById(int resId) {
+		Optional<Restaurant> res=resRepo.findById(resId);
+		Restaurant ress=null;
+		if(res.isPresent())
+			{ress=res.get();
+			return ress;}
+		else
+			throw new RestaurantNotFoundException("Restaurant not found with given ID");
+	}
+	@Override
+	public List<Restaurant> viewByArea(String area) {
+		
+		List<Restaurant> res=viewAllRestaurants();
+		List<Restaurant> restaurant=null;
+		for(Restaurant r:res) {
+			if(r.getAddress().getArea()==area)
+				restaurant.add(r);
+		}	
+		return restaurant;
+	}
+	
+};
 
-}
+
