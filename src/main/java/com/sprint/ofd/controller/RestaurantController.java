@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sprint.ofd.entity.Restaurant;
+import com.sprint.ofd.entity.dto.RestaurantInputDto;
 import com.sprint.ofd.service.IRestaurantService;
 
 @RestController
@@ -21,7 +22,7 @@ public class RestaurantController {
 	IRestaurantService restServ;
 	
 	@PostMapping("/restaurant/add")
-	ResponseEntity<Restaurant> addRestaurant(@RequestBody Restaurant res) {
+	ResponseEntity<Restaurant> addRestaurant(@RequestBody RestaurantInputDto res) {
 		System.out.println(res);
 		Restaurant newRes = restServ.addRestaurant(res);
 		System.out.println(newRes);
@@ -41,7 +42,7 @@ public class RestaurantController {
 	List<Restaurant> restList =restServ.viewAllRestaurants();
 	return new ResponseEntity<>(restList, HttpStatus.OK);
 };
-/*
+
     @GetMapping("/restaurant/view/{restaurantName}")
     ResponseEntity<Restaurant> viewRestaurant(@PathVariable String restaurantName) {
 	Restaurant res = restServ.viewRestaurant(restaurantName);
@@ -50,16 +51,17 @@ public class RestaurantController {
 
  @GetMapping("/Restaurant/viewNearByRestaurant/{area}")
     ResponseEntity<List<Restaurant>> viewNearByRestaurant(@PathVariable("area") String area) {
-    	List<Restaurant> restList =resServ.viewNearByRestaurant(area);
+    	List<Restaurant> restList =restServ.viewByArea(area);
     	return new ResponseEntity<>(restList, HttpStatus.OK);    
 };
-*/
+
 
     @PutMapping("/restaurant/update/{restaurantId}")
-    ResponseEntity<Restaurant> updateRestaurant(@PathVariable int restaurantId, @RequestBody Restaurant res) {
+    ResponseEntity<Restaurant> updateRestaurant(@PathVariable int restaurantId, @RequestBody RestaurantInputDto res) {
 	Restaurant updatedRest = restServ.updateRestaurant(restaurantId, res);
 	return new ResponseEntity<>(updatedRest, HttpStatus.OK);
 };
+
 
 
 }

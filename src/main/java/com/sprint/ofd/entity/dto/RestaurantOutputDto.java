@@ -15,6 +15,9 @@ import javax.validation.constraints.NotNull;
 import com.sprint.ofd.entity.Address;
 import com.sprint.ofd.entity.Item;
 
+import lombok.Data;
+
+@Data
 public class RestaurantOutputDto {
 
 	

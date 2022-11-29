@@ -51,7 +51,7 @@ public class ItemController {
 };
 
   @GetMapping("/item/view/resId/{restaurantId}")
-    ResponseEntity<List<Item>> viewRestaurant(@PathVariable int restaurantId) {
+    ResponseEntity<List<Item>> viewByRestaurant(@PathVariable int restaurantId) {
 	List<Item> item=itmServ.viewAllItemsByRes(restaurantId);
 	return new ResponseEntity<>(item, HttpStatus.OK); 
 };
