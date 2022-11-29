@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sprint.ofd.entity.FoodCart;
 import com.sprint.ofd.entity.Item;
+import com.sprint.ofd.entity.dto.CartInputDto;
 import com.sprint.ofd.service.ICartService;
 
 @RestController
@@ -26,7 +27,7 @@ public class FoodCartController {
 	
 	//controller calling foodCartService to add Item to cart
 	@PostMapping("/cart/additem/")
-	public ResponseEntity<FoodCart> addItemToCart(@Valid @RequestBody FoodCart cart) {
+	public ResponseEntity<FoodCart> addItemToCart(@Valid @RequestBody CartInputDto cart) {
 		FoodCart food = cartServ.addItemToCart(cart);
 		ResponseEntity<FoodCart> response = new ResponseEntity<>(food, HttpStatus.OK); 
 		return response;

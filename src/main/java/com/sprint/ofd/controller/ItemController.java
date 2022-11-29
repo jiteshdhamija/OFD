@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sprint.ofd.entity.Item;
-import com.sprint.ofd.entity.ItemRestDTO;
+
 import com.sprint.ofd.entity.Restaurant;
+import com.sprint.ofd.entity.dto.ItemInputDTO;
+import com.sprint.ofd.entity.dto.ItemOutputDto;
 import com.sprint.ofd.service.IItemService;
 
 @RestController
@@ -22,7 +24,7 @@ public class ItemController {
 	IItemService itmServ;
 	
 	@PostMapping("/item/add")
-	ResponseEntity<Item> addItem(@RequestBody ItemRestDTO item) {
+	ResponseEntity<Item> addItem(@RequestBody ItemInputDTO item) {
 		System.out.println(item);
 		Item newItem = itmServ.addItem(item);
 		System.out.println(newItem);
@@ -36,8 +38,8 @@ public class ItemController {
     	return new ResponseEntity<>(itm, HttpStatus.OK);
     };
     
-    @GetMapping("/item/view/{itemId}")
-    ResponseEntity<Item> viewItem(@PathVariable int itemId) {
+    @GetMapping("/item/view/itemId/{itemId}")
+    ResponseEntity<Item> viewItem(@PathVariable Integer itemId) {
     	Item itm = itmServ.viewItem(itemId);
     	return new ResponseEntity<>(itm, HttpStatus.OK);
     };
@@ -48,12 +50,25 @@ public class ItemController {
 	return new ResponseEntity<>(itemList, HttpStatus.OK);
 };
 
- /*   @GetMapping("/restaurant/view/{restaurantName}")
-    ResponseEntity<Restaurant> viewRestaurant(@PathVariable String restaurantName) {
-	Restaurant res = restServ.viewRestaurant(restaurantName);
-	return new ResponseEntity<>(res, HttpStatus.OK); 
+  @GetMapping("/item/view/resId/{restaurantId}")
+    ResponseEntity<List<Item>> viewRestaurant(@PathVariable int restaurantId) {
+	List<Item> item=itmServ.viewAllItemsByRes(restaurantId);
+	return new ResponseEntity<>(item, HttpStatus.OK); 
 };
-*/
+
+	@GetMapping("/item/view/categId/{catId}")
+	ResponseEntity<List<ItemOutputDto>> viewByCatId(@PathVariable int catId){
+		List<ItemOutputDto> item=itmServ.viewAllItemsByCat(catId);
+		ResponseEntity<List<ItemOutputDto>> response= new ResponseEntity<>(item,HttpStatus.OK);
+		return response;
+	}
+	@GetMapping("/item/view/name/{name}")
+	ResponseEntity<List<ItemOutputDto>> viewByName(@PathVariable String name){
+		List<ItemOutputDto> item=itmServ.viewAllItemsByName(name);
+		ResponseEntity<List<ItemOutputDto>> response= new ResponseEntity<>(item,HttpStatus.OK);
+		return response;
+	}
+
 
 }
 
