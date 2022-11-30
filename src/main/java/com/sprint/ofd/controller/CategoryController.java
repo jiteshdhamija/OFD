@@ -67,6 +67,13 @@ public class CategoryController {
 		Category updatedCat = catServ.updateCategory(catId, cat);
 		return new ResponseEntity<>(updatedCat, HttpStatus.OK);     //200 OK
 	}; 
+	
+	@GetMapping("/category/view/id/{catId}")
+	ResponseEntity<Category> viewCatById(@PathVariable int catId){
+		Category cat=catServ.viewById(catId);
+		return new ResponseEntity<>(cat,HttpStatus.OK);
+		
+	}
 
 
 }

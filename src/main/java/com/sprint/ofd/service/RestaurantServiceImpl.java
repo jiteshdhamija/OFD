@@ -69,7 +69,11 @@ public class RestaurantServiceImpl implements IRestaurantService {
 	@Override
 	public Restaurant viewRestaurant(String restaurantName) {
 		Restaurant res = resRepo.findByRestaurantName(restaurantName);
+		if (res==null)
+			throw new RestaurantNotFoundException("Restaurant Not found with given name");
+	
 		return res;
+		
 	}
 	/*
      * Here we are updating restaurant to the database according to the respective restaurantId
@@ -118,7 +122,7 @@ public class RestaurantServiceImpl implements IRestaurantService {
 		List<RestaurantOutputDto> restaurant=new ArrayList<>();
 		RestaurantOutputDto dto=new RestaurantOutputDto();
 		for(Restaurant r:res) {
-			if(r.getAddress().getArea()==area) {
+			if(area.equals(r.getAddress().getArea())) {
 				dto.setAddress(r.getAddress());
 				dto.setContactNumber(r.getContactNumber());
 				dto.setRestaurantName(r.getRestaurantName());

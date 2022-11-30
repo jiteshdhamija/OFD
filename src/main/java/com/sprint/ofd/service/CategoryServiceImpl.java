@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.sprint.ofd.entity.Category;
+import com.sprint.ofd.exceptions.CategoryNotFoundException;
 import com.sprint.ofd.repository.ICategoryRepository;
 
 @Service
@@ -71,5 +72,17 @@ public class CategoryServiceImpl implements ICategoryService {
 		List<Category> catList = catRepo.findAll();
 		logger.info("categories found with respective id");
 		return catList;	}
+	@Override
+	public Category viewById(int catId) {
+		Optional<Category> cat= catRepo.findById(catId);
+		Category category=new Category();
+		if(cat.isPresent()) {
+			category=cat.get();
+			return category;
+		}
+		else
+			throw new CategoryNotFoundException("Category Not Found");
+		
+	}
 
 }

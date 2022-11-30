@@ -9,5 +9,6 @@ public interface ICategoryService {
 	public Category removeCategory(int catId);
 	public Category viewCategory(String categoryName);
 	public List<Category> viewAllCategory();
+	public Category viewById(int catId);
 
 }

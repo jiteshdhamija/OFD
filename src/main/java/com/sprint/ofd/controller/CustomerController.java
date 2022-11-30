@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sprint.ofd.entity.Customer;
+import com.sprint.ofd.entity.dto.CustomerInputDto;
+import com.sprint.ofd.entity.dto.CustomerOutputDto;
 
 @RestController
 public class CustomerController {
@@ -25,16 +27,16 @@ public class CustomerController {
      * calls addCustomer from service implementation class and adds customer in db
      */
     @PostMapping("/customer/add")
-    ResponseEntity<Customer> addCustomer(  @RequestBody Customer cust) {
-    	Customer newCus=cusServ.addCustomer(cust);
+    ResponseEntity<CustomerOutputDto> addCustomer(  @RequestBody CustomerInputDto cust) {
+    	CustomerOutputDto newCus=cusServ.addCustomer(cust);
     	return new ResponseEntity<>(newCus , HttpStatus.CREATED);
     };
     /*
      * calls updateCustomer from service implementation and updates customer in db
      */
     @PutMapping("/customer/update/{customerId}")
-    ResponseEntity<Customer> updateCustomer( @PathVariable int customerId, @RequestBody Customer customer) {
-		Customer updatedCus=cusServ.updateCustomer(customerId, customer);
+    ResponseEntity<CustomerOutputDto> updateCustomer( @PathVariable int customerId, @RequestBody CustomerInputDto customer) {
+		CustomerOutputDto updatedCus=cusServ.updateCustomer(customerId, customer);
 		return new ResponseEntity<>(updatedCus , HttpStatus.OK);
 	}
     /*

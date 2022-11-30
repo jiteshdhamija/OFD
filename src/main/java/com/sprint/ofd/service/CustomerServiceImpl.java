@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sprint.ofd.entity.Customer;
+import com.sprint.ofd.entity.dto.CustomerInputDto;
+import com.sprint.ofd.entity.dto.CustomerOutputDto;
 import com.sprint.ofd.exceptions.CustomerNotFoundException;
 
 
@@ -23,21 +25,49 @@ private Logger logger = LogManager.getLogger();
  * Here we are adding customer to the database
  */
 	@Override
-	public Customer addCustomer(Customer cust) {
-		
-		return cusRepo.save(cust);
+	public CustomerOutputDto addCustomer(CustomerInputDto cust) {
+		Customer customer=new Customer();
+		customer.setAddress(cust.getAddress());
+		customer.setAge(cust.getAge());
+		customer.setEmail(cust.getEmail());
+		customer.setFirstName(cust.getFirstName());
+		customer.setLastName(cust.getLastName());
+		customer.setGender(cust.getGender());
+		customer.setMobileNumber(cust.getMobileNumber());
+		CustomerOutputDto out=new CustomerOutputDto();
+		customer=cusRepo.save(customer);
+		out.setCustomerId(customer.getCustomerId());
+		out.setEmail(customer.getEmail());
+		out.setFirstName(customer.getFirstName());
+		out.setLastName(customer.getLastName());
+		return out;
 	}
 	/*
 	 * Here we are updating customer to the database according to the respective customerId
 	 */
 	@Override
-	public Customer updateCustomer(int customerId ,  Customer cust) {
+	public CustomerOutputDto updateCustomer(int customerId ,  CustomerInputDto cust) {
 		Optional<Customer> opt	=cusRepo.findById(customerId);
+		Customer customer=new Customer();
+		CustomerOutputDto out=new CustomerOutputDto();
 		if(opt.isPresent()) {
-	     return cusRepo.save(cust);
+			customer.setAddress(cust.getAddress());
+			customer.setAge(cust.getAge());
+			customer.setCustomerId(customerId);
+			customer.setEmail(cust.getEmail());
+			customer.setFirstName(cust.getFirstName());
+			customer.setGender(cust.getGender());
+			customer.setLastName(cust.getLastName());
+			customer.setMobileNumber(cust.getMobileNumber());
+			Customer c=cusRepo.save(customer);
+			out.setCustomerId(customerId);
+			out.setEmail(c.getEmail());
+			out.setFirstName(c.getFirstName());
+			out.setLastName(c.getLastName());
+			return out;
 		}
 		else {
-			throw new CustomerNotFoundException("Customer not found with id: " + cust.getCustomerId());
+			throw new CustomerNotFoundException("Customer not found with id: " );
 		}
 	}
 	/*
