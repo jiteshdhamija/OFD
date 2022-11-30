@@ -72,6 +72,9 @@ public class CategoryServiceImpl implements ICategoryService {
 		List<Category> catList = catRepo.findAll();
 		logger.info("categories found with respective id");
 		return catList;	}
+	
+	
+	
 	@Override
 	public Category viewById(int catId) {
 		Optional<Category> cat= catRepo.findById(catId);

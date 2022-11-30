@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sprint.ofd.entity.Item;
 import com.sprint.ofd.entity.Restaurant;
+import com.sprint.ofd.entity.dto.ItemInputDTO;
 import com.sprint.ofd.entity.dto.RestaurantInputDto;
 import com.sprint.ofd.entity.dto.RestaurantOutputDto;
 import com.sprint.ofd.service.IRestaurantService;
@@ -68,6 +70,23 @@ public class RestaurantController {
 		return new ResponseEntity<>(res, HttpStatus.OK); 
 };
 
+	@PutMapping("/restaurant/update/itemlist/{itemList}/{restId}")
+	ResponseEntity<List<Item>> updateItemList(@PathVariable List<ItemInputDTO> itemList,@PathVariable int restId) {
+		List<Item> list = restServ.updateItemList(itemList,restId);
+		return new ResponseEntity<>(list, HttpStatus.OK); 
+};
+
+@PutMapping("/restaurant/add/itemlist/{itemId}/{restId}")
+	ResponseEntity<List<Item>> updateItemList(@PathVariable int itemId,@PathVariable int restId) {
+		List<Item> list = restServ.addItemToList(itemId,restId);
+		return new ResponseEntity<>(list, HttpStatus.OK); 
+};
+
+@GetMapping("/restaurant/view/itemlist/{resId}")
+	ResponseEntity<List<Item>> viewItemList(@PathVariable int resId) {
+		List<Item> list = restServ.viewItemList(resId);
+		return new ResponseEntity<>(list, HttpStatus.OK); 
+};
 
 
 }

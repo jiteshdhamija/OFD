@@ -26,6 +26,7 @@ private Logger logger = LogManager.getLogger();
  */
 	@Override
 	public CustomerOutputDto addCustomer(CustomerInputDto cust) {
+		//changing dto to object
 		Customer customer=new Customer();
 		customer.setAddress(cust.getAddress());
 		customer.setAge(cust.getAge());
@@ -34,8 +35,12 @@ private Logger logger = LogManager.getLogger();
 		customer.setLastName(cust.getLastName());
 		customer.setGender(cust.getGender());
 		customer.setMobileNumber(cust.getMobileNumber());
-		CustomerOutputDto out=new CustomerOutputDto();
+		
+		//saving to repo
 		customer=cusRepo.save(customer);
+		
+		//converting to outputdto
+		CustomerOutputDto out=new CustomerOutputDto();
 		out.setCustomerId(customer.getCustomerId());
 		out.setEmail(customer.getEmail());
 		out.setFirstName(customer.getFirstName());
@@ -80,8 +85,11 @@ private Logger logger = LogManager.getLogger();
 		if(opt.isPresent()) {
 			cust=opt.get();
 			cusRepo.deleteById(customerId);	
+			return cust;
 		}
-		return cust;	
+		else 
+			throw new CustomerNotFoundException("Customer Not Found with given ID");
+			
 	}
 	/*
 	 * Here we are viewing customer from the database according to the respective customerId
@@ -94,8 +102,11 @@ private Logger logger = LogManager.getLogger();
 		if(opt.isPresent()) {
 			logger.info("Customer found with given id");
 			customer=opt.get();
+			return customer ;
 		}
-		return customer ;
+		else
+			throw new CustomerNotFoundException("Customer Not Found With Given ID");
+		
 	}
 	/*
 	 * Here we are viewing all the customers from the database
@@ -103,6 +114,19 @@ private Logger logger = LogManager.getLogger();
 	@Override
 	public List<Customer> viewAllCustomer() {
 		List<Customer> cusList = cusRepo.findAll();
-		return cusList;
+		if(!cusList.isEmpty())
+			return cusList;
+		else
+			throw new CustomerNotFoundException("No customers found");
 	}
+	@Override
+	public List<Customer> viewByName(String name) {
+		List<Customer> list=cusRepo.findByFirstName(name);
+		if(!list.isEmpty())
+			return list;
+		else
+			throw new CustomerNotFoundException("No Customer found with given name");
+			
+	}
+	
 }

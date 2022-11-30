@@ -10,5 +10,6 @@ public interface ICustomerService {
 	public CustomerOutputDto updateCustomer(int customerId,CustomerInputDto cust);
 	public Customer removeCustomer(int customerId);
 	public Customer viewCustomer(int customerId );
-	public List<Customer> viewAllCustomer(); 
+	public List<Customer> viewAllCustomer();
+	public List<Customer> viewByName(String name); 
 }

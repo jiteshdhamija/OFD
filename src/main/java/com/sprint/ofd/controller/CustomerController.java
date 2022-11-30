@@ -1,6 +1,9 @@
 package com.sprint.ofd.controller;
 import com.sprint.ofd.service.ICustomerService;
 import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +30,7 @@ public class CustomerController {
      * calls addCustomer from service implementation class and adds customer in db
      */
     @PostMapping("/customer/add")
-    ResponseEntity<CustomerOutputDto> addCustomer(  @RequestBody CustomerInputDto cust) {
+    ResponseEntity<CustomerOutputDto> addCustomer( @Valid @RequestBody CustomerInputDto cust) {
     	CustomerOutputDto newCus=cusServ.addCustomer(cust);
     	return new ResponseEntity<>(newCus , HttpStatus.CREATED);
     };
@@ -63,4 +66,10 @@ public class CustomerController {
 		List<Customer> custList =cusServ.viewAllCustomer();
 		return new ResponseEntity<>(custList , HttpStatus.OK);
 	}
+	@GetMapping("/customer/view/byName/{name}")
+	ResponseEntity <List<Customer>> viewByNameCustomer(@PathVariable String name){
+		List<Customer> custList =cusServ.viewByName(name);
+		return new ResponseEntity<>(custList , HttpStatus.OK);
+	}
+	
 }

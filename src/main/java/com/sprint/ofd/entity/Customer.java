@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -35,13 +36,11 @@ public class Customer {
 @NotEmpty
 @NotBlank
 	private String gender;
-	@NotNull
-	@NotEmpty
-	@NotBlank
+	
 	private int age;
-	@Size(min=10,max=10,message="mobile number should be 10 digits")
+	@Digits(integer=10,fraction=0,message="mobile number should be 10 digits")
 	private long mobileNumber;
-	@OneToOne(cascade=CascadeType.MERGE)
+	@OneToOne(cascade= CascadeType.ALL)
 	@JoinColumn(name="cust_add_fk")
 	private Address address;
 	@Email

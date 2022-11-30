@@ -6,8 +6,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.sprint.ofd.repository.IItemRepository;
 import com.sprint.ofd.repository.IRestaurantRepository;
+import com.sprint.ofd.entity.Item;
 import com.sprint.ofd.entity.Restaurant;
+import com.sprint.ofd.entity.dto.ItemInputDTO;
 import com.sprint.ofd.entity.dto.RestaurantInputDto;
 import com.sprint.ofd.entity.dto.RestaurantOutputDto;
 import com.sprint.ofd.exceptions.RestaurantNotFoundException;
@@ -17,6 +21,8 @@ public class RestaurantServiceImpl implements IRestaurantService {
 
 	@Autowired
 	IRestaurantRepository resRepo;
+	@Autowired
+	IItemRepository itemRepo;
 	
 	private Logger logger = LogManager.getLogger();
     /*
@@ -133,7 +139,58 @@ public class RestaurantServiceImpl implements IRestaurantService {
 		}
 		return restaurant;
 	}
+	@Override
+	public List<Item> updateItemList(List<ItemInputDTO> items,int restId) {
+		Optional<Restaurant> res=resRepo.findById(restId);
+		Restaurant rest=new Restaurant();
+		List<Item> list=new ArrayList<>();
+		Item it=new Item();
+		if(res.isPresent()) {
+			rest=res.get();
+			for(ItemInputDTO i:items) {
+				it.setItemName(i.getItemName());
+				it.setCost(i.getCost());
+				list.add(it);
+			}
+			rest.setItemList(list);
+			resRepo.save(rest);
+			return rest.getItemList();
+		}
+		else
+			throw new RestaurantNotFoundException("Restaurant not found with given id");
+		
+	}
 	
+	
+	@Override
+	public List<Item> addItemToList(int itemId,int restId){
+		Optional<Restaurant> res=resRepo.findById(restId);
+		Optional<Item> it=itemRepo.findById(itemId);
+		Restaurant rest=new Restaurant();
+		List<Item> list=new ArrayList<>();
+		if(res.isPresent()) {
+			rest=res.get();
+			list=rest.getItemList();
+			list.add(it.get());
+			resRepo.save(rest);
+			return list;
+		}
+		else
+			throw new RestaurantNotFoundException("Restaurant not found with given id");
+		
+	}
+	@Override
+	public List<Item> viewItemList(int restId) {
+		Optional<Restaurant>res=resRepo.findById(restId);
+		Restaurant rest=new Restaurant();
+		if(res.isPresent())
+		{
+			rest=res.get();
+			return rest.getItemList();
+		}
+		else
+			throw new RestaurantNotFoundException("Restaurant not found");
+	}
 };
 
 
