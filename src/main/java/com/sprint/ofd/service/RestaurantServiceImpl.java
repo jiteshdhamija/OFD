@@ -1,4 +1,5 @@
 package com.sprint.ofd.service;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.sprint.ofd.repository.IRestaurantRepository;
 import com.sprint.ofd.entity.Restaurant;
 import com.sprint.ofd.entity.dto.RestaurantInputDto;
+import com.sprint.ofd.entity.dto.RestaurantOutputDto;
 import com.sprint.ofd.exceptions.RestaurantNotFoundException;
 
 @Service
@@ -96,24 +98,35 @@ public class RestaurantServiceImpl implements IRestaurantService {
 	
 	
 	@Override
-	public Restaurant findById(int resId) {
+	public RestaurantOutputDto findById(int resId) {
 		Optional<Restaurant> res=resRepo.findById(resId);
 		Restaurant ress=null;
+		RestaurantOutputDto rest=new RestaurantOutputDto();
 		if(res.isPresent())
 			{ress=res.get();
-			return ress;}
+			rest.setAddress(ress.getAddress());
+			rest.setContactNumber(ress.getContactNumber());
+			rest.setRestaurantName(ress.getRestaurantName());
+			return rest;}
 		else
 			throw new RestaurantNotFoundException("Restaurant not found with given ID");
 	}
 	@Override
-	public List<Restaurant> viewByArea(String area) {
+	public List<RestaurantOutputDto> viewByArea(String area) {
 		
 		List<Restaurant> res=viewAllRestaurants();
-		List<Restaurant> restaurant=null;
+		List<RestaurantOutputDto> restaurant=new ArrayList<>();
+		RestaurantOutputDto dto=new RestaurantOutputDto();
 		for(Restaurant r:res) {
-			if(r.getAddress().getArea()==area)
-				restaurant.add(r);
-		}	
+			if(r.getAddress().getArea()==area) {
+				dto.setAddress(r.getAddress());
+				dto.setContactNumber(r.getContactNumber());
+				dto.setRestaurantName(r.getRestaurantName());
+				restaurant.add(dto);
+			}
+			else
+				throw new RestaurantNotFoundException("Restaurant not found with given area");
+		}
 		return restaurant;
 	}
 	

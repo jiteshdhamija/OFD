@@ -35,15 +35,15 @@ public class FoodCartController {
 	}
 	//controller calling foodCartService to increase quantity	
 	@PutMapping("/cart/increaseQuantity/{cart}/{item}/{quant}/")
-	public ResponseEntity<FoodCart> increaseQuantity(@Valid @PathVariable("cart") FoodCart cart,@Valid @PathVariable("item") Item item,@Valid @PathVariable("quant") int quantity) {
-		FoodCart food = cartServ.increaseQuantity(cart, item,quantity);
+	public ResponseEntity<FoodCart> increaseQuantity(@Valid @PathVariable("cart") int cartId,@Valid @PathVariable("item") int itemId,@Valid @PathVariable("quant") int quantity) {
+		FoodCart food = cartServ.increaseQuantity(cartId, itemId,quantity);
 		ResponseEntity<FoodCart> response = new ResponseEntity<>(food, HttpStatus.OK); 
 		return response;
 	}
 	//controller calling foodCartService to reduce quantity
 	@PutMapping("/cart/reduceQuantity/{cart}/{item}/{quant}/")
-	public ResponseEntity<FoodCart> reduceQuantity(@Valid @PathVariable("cart") FoodCart cart,@Valid @PathVariable("item") Item item,@Valid @PathVariable("quant") int quantity) {
-		FoodCart food = cartServ.reduceQuantity(cart, item,quantity);
+	public ResponseEntity<FoodCart> reduceQuantity(@Valid @PathVariable("cart") int cartId,@Valid @PathVariable("item") int itemId,@Valid @PathVariable("quant") int quantity) {
+		FoodCart food = cartServ.reduceQuantity(cartId, itemId,quantity);
 		ResponseEntity<FoodCart> response = new ResponseEntity<>(food, HttpStatus.OK); 
 		return response;
 	}

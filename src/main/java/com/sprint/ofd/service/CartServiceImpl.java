@@ -1,6 +1,7 @@
 package com.sprint.ofd.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Optional;
 
@@ -35,12 +36,18 @@ public class CartServiceImpl implements ICartService {
 	}
 	
 	
-	//increasing quantity in cart db
-	//@Override
-	/*public FoodCart increaseQuantity(FoodCart cart,Item item,int quantity) {
-		Optional<FoodCart> food=cartRepo.findById(cart.getCartId());
+	
+	@Override
+	public FoodCart increaseQuantity(int cartId,int itemId,int quantity) {
+		Optional<FoodCart> food=cartRepo.findById(cartId);
 		FoodCart car=food.get();
-		car.setQuantity(quantity);
+		List<Item> it=car.getItemList();
+		
+		for(Item i:it) {
+			if(i.getItemId()==itemId) {
+				i.setQuantity(quantity);
+			}
+		}
 		car=cartRepo.save(car);
 		logger.info("Item quantity changed in cart");
 		return car;
@@ -48,14 +55,20 @@ public class CartServiceImpl implements ICartService {
 	
 	//reducing quantity in cart db
 	@Override
-	public FoodCart reduceQuantity(FoodCart cart,Item item,int quantity) {
-		Optional<FoodCart> food=cartRepo.findById(cart.getCartId());
+	public FoodCart reduceQuantity(int cartId,int itemId,int quantity) {
+		Optional<FoodCart> food=cartRepo.findById(cartId);
 		FoodCart car=food.get();
-		car.setQuantity(quantity);
+		List<Item> it=car.getItemList();
+		
+		for(Item i:it) {
+			if(i.getItemId()==itemId) {
+				i.setQuantity(quantity);
+			}
+		}
 		car=cartRepo.save(car);
 		logger.info("Item quantity changed in cart");
 		return car;
-	}*/
+	}
 	
 	//removing item from cart
 	@Override
@@ -82,18 +95,8 @@ public class CartServiceImpl implements ICartService {
 	}
 
 
-	@Override
-	public FoodCart increaseQuantity(FoodCart cart, Item item, int quantity) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public FoodCart reduceQuantity(FoodCart cart, Item item, int quantity) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
+	
 
 
 }

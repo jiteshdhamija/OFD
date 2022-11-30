@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sprint.ofd.entity.Restaurant;
 import com.sprint.ofd.entity.dto.RestaurantInputDto;
+import com.sprint.ofd.entity.dto.RestaurantOutputDto;
 import com.sprint.ofd.service.IRestaurantService;
 
 @RestController
@@ -50,8 +51,8 @@ public class RestaurantController {
 };
 
  @GetMapping("/Restaurant/viewNearByRestaurant/{area}")
-    ResponseEntity<List<Restaurant>> viewNearByRestaurant(@PathVariable("area") String area) {
-    	List<Restaurant> restList =restServ.viewByArea(area);
+    ResponseEntity<List<RestaurantOutputDto>> viewNearByRestaurant(@PathVariable("area") String area) {
+    	List<RestaurantOutputDto> restList =restServ.viewByArea(area);
     	return new ResponseEntity<>(restList, HttpStatus.OK);    
 };
 
@@ -60,6 +61,11 @@ public class RestaurantController {
     ResponseEntity<Restaurant> updateRestaurant(@PathVariable int restaurantId, @RequestBody RestaurantInputDto res) {
 	Restaurant updatedRest = restServ.updateRestaurant(restaurantId, res);
 	return new ResponseEntity<>(updatedRest, HttpStatus.OK);
+};
+	@GetMapping("/restaurant/view/id/{resId}")
+	ResponseEntity<RestaurantOutputDto> viewRestaurantById(@PathVariable int resId) {
+		RestaurantOutputDto res = restServ.findById(resId);
+		return new ResponseEntity<>(res, HttpStatus.OK); 
 };
 
 
