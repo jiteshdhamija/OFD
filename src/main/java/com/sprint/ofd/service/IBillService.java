@@ -12,10 +12,10 @@ import com.sprint.ofd.entity.Customer;
 
 public interface IBillService {
 
-	public Bill addBill(Bill bill);
+	public Bill addBill(int orderId);
 	public Bill updateBill(Bill bill);
-	public Bill removeBill(Bill bill);
-	public Bill viewBill(Bill bill);
+	public String removeBill(int billId);
+	public Bill viewBill(int billId);
 	public List<Bill> viewBills(LocalDate startDate,LocalDate endDate);
 	public List<Bill> viewBills(Customer customer);
 }

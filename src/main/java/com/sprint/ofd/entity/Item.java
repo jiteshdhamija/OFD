@@ -26,7 +26,7 @@ public class Item {
 	private int itemId;
     @NotNull
 	private String itemName;
-	@OneToOne(cascade=CascadeType.MERGE)
+	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="item_category_fk")
     private Category category;
 	private int quantity;
@@ -34,7 +34,7 @@ public class Item {
 	private double cost;
 	
 
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE },fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JoinTable(name = "res_item_list", joinColumns = { @JoinColumn(name = "restaurant_id") }, inverseJoinColumns = {
 	@JoinColumn(name = "item_id") })
 	private List<Restaurant> restaurants;

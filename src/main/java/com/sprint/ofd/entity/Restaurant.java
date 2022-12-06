@@ -31,7 +31,7 @@ public class Restaurant {
 	@JoinColumn(name="rest_addr_fk")
 	private Address address;
 	
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE },fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JoinTable(name = "res_item_list", joinColumns = { @JoinColumn(name = "restaurant_id") }, inverseJoinColumns = {
 	@JoinColumn(name = "item_id") })
 	private List<Item> itemList;

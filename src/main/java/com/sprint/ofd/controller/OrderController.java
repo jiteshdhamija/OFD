@@ -30,8 +30,8 @@ public class OrderController {
 	
 	//controller calling orderService to add order
 	@PostMapping("/order/add/")
-	public ResponseEntity<OrderDetails> addOrder(@Valid @RequestBody OrderDetails order) {
-		OrderDetails ord = orderServ.addOrder(order);
+	public ResponseEntity<OrderDetails> addOrder(Integer cartId) {
+		OrderDetails ord = orderServ.addOrder(cartId);
 		ResponseEntity<OrderDetails> response = new ResponseEntity<>(ord, HttpStatus.OK); 
 		return response;
 	}
@@ -47,35 +47,21 @@ public class OrderController {
 	
 	//controller calling orderService to remove order
 	@DeleteMapping("/order/delete/{order}/")
-	public ResponseEntity<OrderDetails> removeOrder(@Valid @PathVariable OrderDetails order) {
-		OrderDetails ord = orderServ.removeOrder(order);
-		ResponseEntity<OrderDetails> response = new ResponseEntity<>(ord, HttpStatus.OK); 
+	public ResponseEntity<String> removeOrder(@PathVariable Integer order) {
+		String ord = orderServ.removeOrder(order);
+		ResponseEntity<String> response = new ResponseEntity<>(ord, HttpStatus.OK); 
 		return response;
 	}
 	
 	//controller calling orderService to view order
 	@GetMapping("/order/viewOrder/{order}/")
-	public ResponseEntity<OrderDetails> viewOrder(@Valid @PathVariable OrderDetails order) {
+	public ResponseEntity<OrderDetails> viewOrder(@PathVariable Integer order) {
 		OrderDetails ord = orderServ.viewOrder(order);
 		ResponseEntity<OrderDetails> response = new ResponseEntity<>(ord, HttpStatus.OK); 
 		return response;
 	}
 	
-	//controller calling orderService to view all orders mapped to reaurantName
-	@GetMapping("/order/viewAll/{res}/")
-	public ResponseEntity<List<OrderDetails>> viewAllOrders(@Valid @PathVariable Restaurant resName) {
-		List<OrderDetails> ord = orderServ.viewAllOrders(resName);
-		ResponseEntity<List<OrderDetails>> response = new ResponseEntity<>(ord, HttpStatus.OK); 
-		return response;
-	}
 	
-	//controller calling orderService to view all orders based on Customer
-	@GetMapping("/order/viewAll/{cust}")
-	public ResponseEntity<List<OrderDetails>> viewAllOrders(@Valid @PathVariable Customer customer) {
-		List<OrderDetails> ord = orderServ.viewAllOrders(customer);
-		ResponseEntity<List<OrderDetails>> response = new ResponseEntity<>(ord, HttpStatus.OK); 
-		return response;
-	}
 
 
 }

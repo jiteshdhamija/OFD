@@ -1,20 +1,19 @@
 package com.sprint.ofd.service;
 
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
-import javax.persistence.TypedQuery;
-
-import org.apache.logging.log4j.LogBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sprint.ofd.entity.Customer;
+
+import com.sprint.ofd.entity.FoodCart;
 import com.sprint.ofd.entity.OrderDetails;
-import com.sprint.ofd.entity.Restaurant;
+import com.sprint.ofd.exceptions.CartNotFoundException;
 import com.sprint.ofd.exceptions.OrderNotFoundException;
+import com.sprint.ofd.repository.ICartRepository;
 import com.sprint.ofd.repository.IOrderRepository;
 
 
@@ -23,13 +22,22 @@ public class OrderServicelmpl implements IOrderService {
 	
 	@Autowired
 	IOrderRepository orderRepo;
+	@Autowired
+	ICartRepository cartRepo;
 	
 	private Logger logger= LogManager.getLogger();
 	
 	
 	//add order in db
 	@Override
-	public OrderDetails addOrder(OrderDetails order) {
+	public OrderDetails addOrder(int cartId) {
+		Optional<FoodCart> cart= cartRepo.findById(cartId);
+		if(cart.isEmpty())
+			throw new CartNotFoundException("Cart not found");
+		FoodCart car=cart.get();
+		OrderDetails order=new OrderDetails();
+		order.setOrderDate(LocalDateTime.now());
+		order.setCart(car);
 		OrderDetails details=orderRepo.save(order);
 		logger.info("order added successfully");
 		return details;
@@ -53,53 +61,39 @@ public class OrderServicelmpl implements IOrderService {
 	
 	//remove order on orderDetails
 	@Override
-	public OrderDetails removeOrder(OrderDetails order) {
+	public String removeOrder(int order) {
 		
-		Optional<OrderDetails> details=orderRepo.findById(order.getOrderId());
+		Optional<OrderDetails> details=orderRepo.findById(order);
 		OrderDetails deta= null;
 		
 		if(details.isPresent()) {
 			deta=details.get();
 			orderRepo.delete(deta);
 			logger.info("Order Removed");
+			return "Order Deleted";
 		}
 		else
 			throw new OrderNotFoundException("Order Not Found");
 			
-		return deta;
+		
 	}
 	
 	//view order based on OrderDetails
 	@Override
-	public OrderDetails viewOrder(OrderDetails order) {
-		Optional<OrderDetails> details=orderRepo.findById(order.getOrderId());
+	public OrderDetails viewOrder(int order) {
+		Optional<OrderDetails> details=orderRepo.findById(order);
 		OrderDetails deta=null;
 		if(details.isPresent()) {
 			deta=details.get();
 			logger.info("Order found in db");
+			return deta;
 		}
 		else
 			throw new OrderNotFoundException("Order Not Found");
-		return deta;
-	}
-	
-	
-	//view all orders from a restaurant
-	@Override
-	public List<OrderDetails> viewAllOrders(Restaurant resName) {
 		
-		List<OrderDetails> listOrder=orderRepo.findAll();
-		logger.info("Orders Retrieved from db");
-		return listOrder;
 	}
 	
-	//view all orders placed by a customer
-	@Override
-	public List<OrderDetails> viewAllOrders(Customer customer) {
-		List<OrderDetails> listOrder=orderRepo.findAll();
-		logger.info("Orders Retrieved from db");
-
-		return listOrder;
-	}
+	
+	
 
 }

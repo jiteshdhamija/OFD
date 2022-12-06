@@ -1,5 +1,9 @@
 package com.sprint.ofd.service;
 
+import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Service;
 
 import com.sprint.ofd.entity.FoodCart;
@@ -16,6 +20,8 @@ public interface ICartService {
 	public FoodCart clearCart(int cartId);
 	public FoodCart addItemToCart(int itemId,int cartId);
 	public FoodCart addItemToNewCart(int itemId);
+	public List<FoodCart> viewAll();
+	public String removeCart(int cart);
 	
 	
 }

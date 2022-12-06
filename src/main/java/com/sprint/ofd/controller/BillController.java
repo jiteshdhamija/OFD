@@ -29,8 +29,8 @@ public class BillController {
 	
 	//controller calling billservice to add bill
 	@PostMapping("/bill/add/")
-	public ResponseEntity<Bill> addBill(@Valid @RequestBody Bill bill) {
-		Bill b = billServ.addBill(bill);
+	public ResponseEntity<Bill> addBill(@RequestBody Integer orderId) {
+		Bill b = billServ.addBill(orderId);
 		ResponseEntity<Bill> response = new ResponseEntity<>(b, HttpStatus.CREATED); 
 		return response;
 		
@@ -48,9 +48,9 @@ public class BillController {
 	//controller calling billservice to delete bill
 	
 	@DeleteMapping("/bill/delete/{bill}/")
-	public ResponseEntity<Bill> removeBill(@Valid @PathVariable Bill bill) {
-		Bill b = billServ.updateBill(bill);
-		ResponseEntity<Bill> response = new ResponseEntity<>(b, HttpStatus.OK); 
+	public ResponseEntity<String> removeBill( @PathVariable int bill) {
+		String b = billServ.removeBill(bill);
+		ResponseEntity<String> response = new ResponseEntity<>(b, HttpStatus.OK); 
 		return response;
 		
 	}
@@ -58,7 +58,7 @@ public class BillController {
 	
 	//controller calling billservice to view bill
 	@GetMapping("/bill/view/{bill}/")
-	public ResponseEntity<Bill> viewBill(@Valid @PathVariable Bill bill) {
+	public ResponseEntity<Bill> viewBill(@PathVariable int bill) {
 		Bill b = billServ.viewBill(bill);
 		ResponseEntity<Bill> response = new ResponseEntity<>(b, HttpStatus.OK); 
 		return response;

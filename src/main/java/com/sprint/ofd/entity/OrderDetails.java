@@ -26,8 +26,4 @@ public class OrderDetails {
 	@JoinColumn(name="order_cart_fk")
 	private FoodCart cart;
 	
-	@NotNull
-	@NotEmpty
-	@NotBlank
-	private String orderStatus;
 }

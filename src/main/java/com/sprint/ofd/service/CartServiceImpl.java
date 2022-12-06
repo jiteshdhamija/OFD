@@ -1,9 +1,11 @@
 package com.sprint.ofd.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import java.util.Optional;
 
+import javax.validation.Valid;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -37,7 +39,9 @@ public class CartServiceImpl implements ICartService {
 		FoodCart cart=new FoodCart();
 		List<Item> itemList=cart.getItemList();
 		item=opt.get();
+		item.setQuantity(1);
 		itemList.add(item);
+		cart.setItemList(itemList);
 		cartRepo.save(cart);
 		return cart;
 		}
@@ -57,6 +61,7 @@ public class CartServiceImpl implements ICartService {
 			List<Item> itemList=cart.getItemList();
 			Optional<Item> it=itemRepo.findById(itemId);
 			Item item= it.get();
+			item.setQuantity(1);
 			itemList.add(item);
 			cartRepo.save(cart);
 			return cart;
@@ -124,6 +129,32 @@ public class CartServiceImpl implements ICartService {
 		car.setItemList(null);
 		
 		return car;
+	}
+
+
+
+	@Override
+	public List<FoodCart> viewAll() {
+		List<FoodCart> list=cartRepo.findAll();
+		if(list.isEmpty())
+			throw new CartNotFoundException("No cart found");
+		return list;
+	}
+
+
+
+	@Override
+	public String removeCart(int cart) {
+		Optional<FoodCart> opt=cartRepo.findById(cart);
+		if(opt.isEmpty())
+			throw new CartNotFoundException("Cart not found");
+		else
+		{
+			FoodCart food=opt.get();
+			cartRepo.delete(food);
+			return "Deleted Successfuly";
+		}
+	
 	}
 
 

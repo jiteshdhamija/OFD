@@ -1,5 +1,6 @@
 package com.sprint.ofd.entity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,11 +22,11 @@ public class FoodCart {
 	@GeneratedValue
 	private int cartId;
 	
-	@OneToOne(cascade=CascadeType.MERGE)
+	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="cart_cust_fk")
 	private Customer customer;
-	@OneToMany(cascade=CascadeType.MERGE)
+	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="cart_item_fk")
-	private List<Item> itemList;
+	private List<Item> itemList=new ArrayList<Item>();
 
 }
