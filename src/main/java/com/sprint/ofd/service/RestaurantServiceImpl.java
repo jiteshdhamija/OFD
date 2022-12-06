@@ -65,6 +65,9 @@ public class RestaurantServiceImpl implements IRestaurantService {
 	@Override
 	public List<Restaurant> viewAllRestaurants() {
 		List<Restaurant> resList = resRepo.findAll();
+		if(resList.isEmpty()) {
+			throw new RestaurantNotFoundException("no restaurant found");
+		}
 		logger.info("restaurants found with respective id");
 		return resList;
 		

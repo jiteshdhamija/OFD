@@ -27,29 +27,29 @@ public class FoodCartController {
 	
 	//controller calling foodCartService to add Item to cart
 	@PostMapping("/cart/additem/")
-	public ResponseEntity<FoodCart> addItemToCart(@Valid @RequestBody CartInputDto cart) {
-		FoodCart food = cartServ.addItemToCart(cart);
+	public ResponseEntity<FoodCart> addItemToCart(@Valid @RequestBody Integer itemId,@RequestBody Integer cartId) {
+		FoodCart food = cartServ.addItemToCart(itemId,cartId);
 		ResponseEntity<FoodCart> response = new ResponseEntity<>(food, HttpStatus.OK); 
 		return response;
 		
 	}
 	//controller calling foodCartService to increase quantity	
 	@PutMapping("/cart/increaseQuantity/{cart}/{item}/{quant}/")
-	public ResponseEntity<FoodCart> increaseQuantity(@Valid @PathVariable("cart") int cartId,@Valid @PathVariable("item") int itemId,@Valid @PathVariable("quant") int quantity) {
+	public ResponseEntity<FoodCart> increaseQuantity(@Valid @PathVariable("cart") Integer cartId,@Valid @PathVariable("item") Integer itemId,@Valid @PathVariable("quant") Integer quantity) {
 		FoodCart food = cartServ.increaseQuantity(cartId, itemId,quantity);
 		ResponseEntity<FoodCart> response = new ResponseEntity<>(food, HttpStatus.OK); 
 		return response;
 	}
 	//controller calling foodCartService to reduce quantity
 	@PutMapping("/cart/reduceQuantity/{cart}/{item}/{quant}/")
-	public ResponseEntity<FoodCart> reduceQuantity(@Valid @PathVariable("cart") int cartId,@Valid @PathVariable("item") int itemId,@Valid @PathVariable("quant") int quantity) {
+	public ResponseEntity<FoodCart> reduceQuantity(@Valid @PathVariable("cart") Integer cartId,@Valid @PathVariable("item") Integer itemId,@Valid @PathVariable("quant") Integer quantity) {
 		FoodCart food = cartServ.reduceQuantity(cartId, itemId,quantity);
 		ResponseEntity<FoodCart> response = new ResponseEntity<>(food, HttpStatus.OK); 
 		return response;
 	}
 	//controller calling foodCartService to delete Item from cart
 	@DeleteMapping("/cart/delete/item/{cart}/{item}")
-	public ResponseEntity<FoodCart> removeItem(@Valid @PathVariable("cart") FoodCart cart,@Valid @PathVariable("item") Item item) {
+	public ResponseEntity<FoodCart> removeItem(@Valid @PathVariable("cart") Integer cart,@Valid @PathVariable("item") Integer item) {
 		FoodCart food = cartServ.removeItem(cart, item);
 		ResponseEntity<FoodCart> response = new ResponseEntity<>(food, HttpStatus.OK);
 		return response;
@@ -57,7 +57,7 @@ public class FoodCartController {
 	
 	//controller calling foodCartService to clear cart
 	@DeleteMapping("/cart/delete/all/{cart}")
-	public ResponseEntity<FoodCart> clearCart(@Valid @PathVariable FoodCart cart) {
+	public ResponseEntity<FoodCart> clearCart(@Valid @PathVariable Integer cart) {
 		FoodCart food = cartServ.clearCart(cart);
 		ResponseEntity<FoodCart> response = new ResponseEntity<>(food, HttpStatus.OK); 
 		return response;

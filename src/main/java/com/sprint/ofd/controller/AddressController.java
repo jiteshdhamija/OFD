@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sprint.ofd.entity.Address;
-import com.sprint.ofd.repository.IAddressRepository;
+
 import com.sprint.ofd.service.IAddressService;
 
 @RestController

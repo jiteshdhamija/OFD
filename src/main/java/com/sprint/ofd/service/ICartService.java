@@ -12,9 +12,10 @@ public interface ICartService {
 	
 	public FoodCart increaseQuantity(int cartId,int itemId,int quantity);
 	public FoodCart reduceQuantity(int cartId,int itemId,int quantity);
-	public FoodCart removeItem(FoodCart cart,Item item);
-	public FoodCart clearCart(FoodCart cart);
-	public FoodCart addItemToCart(CartInputDto cart);
+	public FoodCart removeItem(int cartId,int itemId);
+	public FoodCart clearCart(int cartId);
+	public FoodCart addItemToCart(int itemId,int cartId);
+	public FoodCart addItemToNewCart(int itemId);
 	
 	
 }

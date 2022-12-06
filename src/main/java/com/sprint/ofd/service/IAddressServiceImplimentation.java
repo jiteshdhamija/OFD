@@ -29,9 +29,9 @@ public class IAddressServiceImplimentation implements IAddressService{
 		Address address=new Address();
 		if(ad.isPresent()) {
 			address=ad.get();
-			adRepo.delete(add);
 			adRepo.save(address);
 			return address;
+		
 		}
 		else
 			throw new AddressNotFoundException("Address Not Found");
