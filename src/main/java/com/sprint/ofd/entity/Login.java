@@ -28,6 +28,6 @@ public class Login {
 	@Size(min=6,max=18)
 	private String password;
 	
-	private boolean login_flag;
+	private boolean login_flag=false;
 	
 }
