@@ -18,4 +18,5 @@ public interface IOrderService {
 	public OrderDetails updateOrder(OrderDetails order);
 	public String removeOrder(int order);
 	public OrderDetails viewOrder(int order);
+	public double viewTotalCost(Integer orderId);
 }

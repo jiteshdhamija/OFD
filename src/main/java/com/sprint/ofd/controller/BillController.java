@@ -3,11 +3,16 @@ package com.sprint.ofd.controller;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.servlet.http.HttpServlet;
 import javax.validation.Valid;
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,13 +24,23 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sprint.ofd.entity.Bill;
 import com.sprint.ofd.entity.Customer;
 import com.sprint.ofd.service.IBillService;
-
+@CrossOrigin(origins="http://localhost:3000")
 @RestController
-public class BillController {
+public class BillController extends HttpServlet {
 	
 	//autowired ibillservice
 	@Autowired
 	IBillService billServ;
+	
+	
+	
+	public void doPut(HttpServletRequest request, HttpServletResponse response) {
+	    // Add the "Access-Control-Allow-Origin" and "Access-Control-Allow-Methods" headers
+	    response.setHeader("Access-Control-Allow-Origin", "*");
+	    response.setHeader("Access-Control-Allow-Methods", "PUT");
+
+	    // Continue with your controller code here...
+	  }
 	
 	//controller calling billservice to add bill
 	@PostMapping("/bill/add/")

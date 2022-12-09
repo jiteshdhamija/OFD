@@ -9,14 +9,18 @@ import javax.validation.Valid;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.checkerframework.checker.nullness.Opt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sprint.ofd.entity.Customer;
 import com.sprint.ofd.entity.FoodCart;
 import com.sprint.ofd.entity.Item;
 import com.sprint.ofd.entity.dto.CartInputDto;
 import com.sprint.ofd.exceptions.CartNotFoundException;
+import com.sprint.ofd.exceptions.CustomerNotFoundException;
 import com.sprint.ofd.repository.ICartRepository;
+import com.sprint.ofd.repository.ICustomerRepository;
 import com.sprint.ofd.repository.IItemRepository;
 
 @Service
@@ -26,6 +30,8 @@ public class CartServiceImpl implements ICartService {
 	ICartRepository cartRepo;
 	@Autowired
 	IItemRepository itemRepo;
+	@Autowired
+	ICustomerRepository customerRepo;
 	
 	private Logger logger=LogManager.getLogger();
 	
@@ -155,6 +161,48 @@ public class CartServiceImpl implements ICartService {
 			return "Deleted Successfuly";
 		}
 	
+	}
+
+
+
+	@Override
+	public FoodCart relateCustomer(@Valid Integer cartId, @Valid Integer custId) {
+		Optional<FoodCart> optCart=cartRepo.findById(cartId);
+		if(optCart.isEmpty()) {throw new CartNotFoundException("Cart not found");}
+		Optional<Customer> optCust=customerRepo.findById(custId);
+		if(optCust.isEmpty()) {throw new CustomerNotFoundException("Customer not found");}
+		
+		Customer cust=optCust.get();
+		FoodCart cart=optCart.get();
+		cart.setCustomer(cust);
+		cart=cartRepo.save(cart);
+		return cart;
+	}
+
+
+
+	@Override
+	public FoodCart viewById(int cartId) {
+		Optional<FoodCart> opt=cartRepo.findById(cartId);
+		if(opt.isEmpty())
+			throw new CartNotFoundException("Cart not found");
+		FoodCart cart=opt.get();
+		return cart;
+	}
+
+
+
+	@Override
+	public double viewTotalCost(int cartId) {
+		Optional<FoodCart> opt=cartRepo.findById(cartId);
+		if(opt.isEmpty())
+			throw new CartNotFoundException("Cart not found");
+		FoodCart cart=opt.get();
+		double totalCost=0;
+		for(Item item:cart.getItemList()) {
+			totalCost+=item.getCost();
+		}
+		return totalCost;
 	}
 
 

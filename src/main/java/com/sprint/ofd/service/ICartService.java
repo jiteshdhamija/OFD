@@ -22,6 +22,9 @@ public interface ICartService {
 	public FoodCart addItemToNewCart(int itemId);
 	public List<FoodCart> viewAll();
 	public String removeCart(int cart);
+	public FoodCart relateCustomer(@Valid Integer cartId, @Valid Integer custId);
+	public FoodCart viewById(int cartId);
+	public double viewTotalCost(int cartId);
 	
 	
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 
 import com.sprint.ofd.entity.FoodCart;
+import com.sprint.ofd.entity.Item;
 import com.sprint.ofd.entity.OrderDetails;
 import com.sprint.ofd.exceptions.CartNotFoundException;
 import com.sprint.ofd.exceptions.OrderNotFoundException;
@@ -91,6 +92,20 @@ public class OrderServicelmpl implements IOrderService {
 		else
 			throw new OrderNotFoundException("Order Not Found");
 		
+	}
+
+	@Override
+	public double viewTotalCost(Integer orderId) {
+		Optional<OrderDetails> opt=orderRepo.findById(orderId);
+		if(opt.isEmpty())
+			throw new OrderNotFoundException("Order Not Found");
+		OrderDetails order=opt.get();
+		double totalCost=0;
+		for(Item item:order.getCart().getItemList()) {
+			totalCost+=item.getCost();
+		}
+		return totalCost;
+			
 	}
 	
 	

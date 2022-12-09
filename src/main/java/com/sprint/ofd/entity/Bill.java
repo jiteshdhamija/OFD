@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -21,6 +22,7 @@ import lombok.Data;
 public class Bill {
 	
 	@Id
+	@GeneratedValue
 	private Integer billId;
 	
 	@OneToOne(cascade = CascadeType.ALL)
@@ -34,9 +36,7 @@ public class Bill {
 	private int totalItem;
 	
 	
-	@NotNull
-	@NotEmpty
-	@NotBlank
+	
 	private double totalCost;
 	LocalDate billDate;
 

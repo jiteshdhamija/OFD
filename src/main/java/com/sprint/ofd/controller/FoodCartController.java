@@ -2,11 +2,15 @@ package com.sprint.ofd.controller;
 
 import java.util.List;
 
-import javax.validation.Valid;
+import javax.servlet.http.HttpServlet;
 
+import javax.validation.Valid;
+import javax.servlet.*;
+import javax.servlet.http.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,12 +23,19 @@ import com.sprint.ofd.entity.FoodCart;
 import com.sprint.ofd.entity.Item;
 import com.sprint.ofd.entity.dto.CartInputDto;
 import com.sprint.ofd.service.ICartService;
-
+@CrossOrigin
 @RestController
-public class FoodCartController {
+public class FoodCartController extends HttpServlet {
 	
 	@Autowired
 	ICartService cartServ;
+	 public void doPut(HttpServletRequest request, HttpServletResponse response) {
+		    // Add the "Access-Control-Allow-Origin" and "Access-Control-Allow-Methods" headers
+		    response.setHeader("Access-Control-Allow-Origin", "*");
+		    response.setHeader("Access-Control-Allow-Methods", "PUT");
+
+		    // Continue with your controller code here...
+	 }
 	
 	
 	
@@ -51,6 +62,8 @@ public class FoodCartController {
 		ResponseEntity<FoodCart> response = new ResponseEntity<>(food, HttpStatus.OK); 
 		return response;
 	}
+	
+	
 	//controller calling foodCartService to reduce quantity
 	@PutMapping("/cart/reduceQuantity/{cart}/{item}/{quant}/")
 	public ResponseEntity<FoodCart> reduceQuantity(@Valid @PathVariable("cart") Integer cartId,@Valid @PathVariable("item") Integer itemId,@Valid @PathVariable("quant") Integer quantity) {
@@ -58,10 +71,35 @@ public class FoodCartController {
 		ResponseEntity<FoodCart> response = new ResponseEntity<>(food, HttpStatus.OK); 
 		return response;
 	}
+	
+	
+	@PutMapping("/cart/create/realation/{cart}/{custId}")
+	public ResponseEntity<FoodCart> relateCustomer(@Valid @PathVariable("cart") Integer cartId,@Valid @PathVariable("custId") Integer custId) {
+		FoodCart food = cartServ.relateCustomer(cartId,custId);
+		ResponseEntity<FoodCart> response = new ResponseEntity<>(food, HttpStatus.OK); 
+		return response;
+	}
+	
+	
 	@GetMapping("/cart/view/all")
 	public ResponseEntity<List<FoodCart>> viewAll() {
 		List<FoodCart> food = cartServ.viewAll();
 		ResponseEntity<List<FoodCart>> response = new ResponseEntity<>(food, HttpStatus.OK); 
+		return response;
+		
+	}
+	
+	@GetMapping("/cart/view/byId/{cartId}")
+	public ResponseEntity<FoodCart> viewById(@PathVariable int cartId) {
+		FoodCart food = cartServ.viewById(cartId);
+		ResponseEntity<FoodCart> response = new ResponseEntity<>(food, HttpStatus.OK); 
+		return response;
+		
+	}
+	@GetMapping("/cart/view/totalCost/{cartId}")
+	public ResponseEntity<Double> viewTotalCost(@PathVariable Integer cartId) {
+		double totalCost = cartServ.viewTotalCost(cartId);
+		ResponseEntity<Double> response = new ResponseEntity<>(totalCost, HttpStatus.OK); 
 		return response;
 		
 	}
